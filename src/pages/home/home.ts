@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, Refresher } from 'ionic-angular';
 
 import { ANIMALES } from './../../data/data.animales';
 import { Animal } from './../../interfaces/animal.interface';
@@ -52,4 +52,18 @@ export class HomePage {
       }// fin if
     }// fin for
   }// fin funcion pausarAudio
+
+  // Borramos de la lista con la posicion enviada desde la vista el animal.
+  borrarAnimal(position: number) {
+    this.animales.splice(position, 1);
+  }// fin borrarAnimal
+
+  // Al bajar la lista esta se recarga la lista.
+  recargarLista(refresher: Refresher) {
+    setTimeout(() => {
+      this.animales = ANIMALES.slice(0);
+      refresher.complete();
+    }, 1500);
+  }// fin funcion recargarLista
+
 }
