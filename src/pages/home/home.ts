@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, Refresher } from 'ionic-angular';
+import { NavController, Refresher, reorderArray } from 'ionic-angular';
 
 import { ANIMALES } from './../../data/data.animales';
 import { Animal } from './../../interfaces/animal.interface';
@@ -13,7 +13,8 @@ export class HomePage {
   animales:Animal[] = [];
 
   audio = new Audio();
-  audioTiempo: any;
+  audioTiempo:any;
+  ordenando:boolean = false;
 
   constructor(public navCtrl: NavController) {
     this.animales = ANIMALES.slice(0);
@@ -65,5 +66,10 @@ export class HomePage {
       refresher.complete();
     }, 1500);
   }// fin funcion recargarLista
+
+  // Reordenar las posiciones de la lista
+  reOrdenarAnimales(indice:any) {
+    this.animales = reorderArray(this.animales,indice);
+  }// fin reOrdenarAnimales
 
 }
