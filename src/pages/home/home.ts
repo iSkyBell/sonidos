@@ -12,8 +12,44 @@ export class HomePage {
 
   animales:Animal[] = [];
 
+  audio = new Audio();
+  audioTiempo: any;
+
   constructor(public navCtrl: NavController) {
     this.animales = ANIMALES.slice(0);
   }
 
+  // Produce un efecto de clic
+  reproducir(animal:Animal) {
+
+    // Validamos si estamos reproduciendo en estos momentos un audio
+    this.pausarAudio(animal);
+
+    if(animal.reproduciendo){
+      animal.reproduciendo = false;
+      return;
+    }// fin if
+
+    this.audio.src = animal.audio;// Le pasamos el audio del animal que dio clic
+    this.audio.load();
+    this.audio.play();
+
+    this.audioTiempo = setTimeout( () => animal.reproduciendo = false, animal.duracion * 1000 );
+    animal.reproduciendo = true;
+  }// fin reproducir
+
+  // Pausamos el audio
+  private pausarAudio(animalSel: Animal) {
+    
+    clearTimeout(this.audioTiempo);
+    this.audio.pause();
+    this.audio.currentTime = 0;
+
+    // Pausamos todos los sonidos de los animales excepto el que presionamos actualmente
+    for (let animal of this.animales) {
+      if(animal.nombre != animalSel.nombre){
+        animal.reproduciendo = false;
+      }// fin if
+    }// fin for
+  }// fin funcion pausarAudio
 }
